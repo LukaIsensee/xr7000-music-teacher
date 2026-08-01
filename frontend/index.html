@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>XR7000 Music Teacher</title>
+<meta name="theme-color" content="#14110f" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icons/icon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+  <header class="app-header">
+    <h1>XR7000 Music Teacher</h1>
+    <button id="profileBtn" class="ghost-btn" type="button" aria-label="View student profile">Profile</button>
+  </header>
+
+  <main id="log" class="log" aria-live="polite"></main>
+
+  <form id="composer" class="composer">
+    <textarea id="input" rows="1" placeholder="Ask about a chord, describe a feel, request a practice task…" autocomplete="off"></textarea>
+    <button type="submit" id="sendBtn">Send</button>
+  </form>
+</div>
+
+<dialog id="profileDialog">
+  <h2>What it knows about you</h2>
+  <pre id="profileContent">Loading…</pre>
+  <button id="closeProfile" type="button">Close</button>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
