@@ -1,11 +1,17 @@
-const CACHE_NAME = "xr7000-teacher-shell-v1";
+const CACHE_NAME = "xr7000-teacher-shell-v2";
+
+// Relative so the app works from a GitHub Pages subdirectory as well as root.
 const SHELL_FILES = [
-  "/",
-  "/index.html",
-  "/styles.css",
-  "/app.js",
-  "/manifest.json",
-  "/icons/icon.svg",
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./app.js",
+  "./music-theory.js",
+  "./theory-context.js",
+  "./local-memory.js",
+  "./llm-engine.js",
+  "./manifest.json",
+  "./icons/icon.svg",
 ];
 
 self.addEventListener("install", (event) => {
@@ -24,9 +30,13 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Never cache API calls; cache-first for the static app shell only.
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
+
+  // Never touch cross-origin traffic: WebLLM streams ~1 GB of model weights from
+  // a CDN and manages its own cache. Intercepting that would duplicate the
+  // storage and blow past iOS's origin quota.
+  if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/")) return;
 
   event.respondWith(

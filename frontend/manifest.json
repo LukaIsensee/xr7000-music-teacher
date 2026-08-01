@@ -1,15 +1,16 @@
 {
   "name": "XR7000 Music Teacher",
   "short_name": "XR7000 Teacher",
-  "description": "Personalized AI music teacher for the Kawai XR7000",
-  "start_url": "/",
-  "scope": "/",
+  "description": "Personalized on-device AI music teacher for the Kawai XR7000",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#14110f",
   "theme_color": "#14110f",
   "icons": [
     {
-      "src": "icons/icon.svg",
+      "src": "./icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

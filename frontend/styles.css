@@ -103,6 +103,90 @@ html, body {
   background: transparent;
 }
 
+/* Computed theory — visually distinct from anything the model generated, so it
+   is always clear which parts of an answer are exact. */
+.bubble.facts {
+  align-self: flex-start;
+  max-width: 95%;
+  background: transparent;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.model-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem 0;
+}
+
+.model-bar select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.model-bar button {
+  border: none;
+  background: var(--accent);
+  color: #14110f;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.model-bar button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.status {
+  padding: 0.45rem 1rem 0.2rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.status.ready { color: #4c9a5a; }
+.status.error { color: #c2543f; }
+.status.loading { color: var(--accent); }
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+
+dialog textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
 .composer {
   display: flex;
   gap: 0.5rem;

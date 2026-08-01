@@ -52,6 +52,26 @@ Where fine-tuning genuinely helps is **style** — making the teacher sound the 
 your idiom, and land on the right level of detail unprompted. The conversation logs being saved now
 are exactly the training data that step will need.
 
+## Session history
+
+Every working session is logged to `session_history_YYYY-MM-DD/session-NN.md` — decisions made,
+what was built, and what to pick up next time. Read the most recent one before resuming work.
+
+## Using it on an iPhone
+
+The deployed app needs no server. Open the GitHub Pages URL in **Safari** (Chrome and Firefox on iOS
+cannot do WebGPU), then Share > Add to Home Screen to install it.
+
+- **iOS 26+**: WebGPU is on by default.
+- **Older iOS**: enable Settings > Safari > Advanced > Feature Flags > WebGPU.
+- First load downloads roughly 1 GB of model weights — do it on Wi-Fi. After that it works offline.
+- Start with the 1B model. It is the one most likely to fit inside Safari's per-tab memory limit;
+  the 3B option gives better answers but may fail on a phone.
+
+If the model won't load, the app still works: the theory engine is exact and needs no model at all.
+
+## Local development
+
 ## Setup
 
 1. On the machine running Ollama (your DGX Spark):

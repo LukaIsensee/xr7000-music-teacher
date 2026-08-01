@@ -5,32 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>XR7000 Music Teacher</title>
 <meta name="theme-color" content="#14110f" />
-<link rel="manifest" href="manifest.json" />
-<link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="icons/icon.svg" />
-<link rel="stylesheet" href="styles.css" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="XR7000 Teacher" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./icons/icon.svg" />
+<link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
 <div class="app">
   <header class="app-header">
-    <h1>XR7000 Music Teacher</h1>
-    <button id="profileBtn" class="ghost-btn" type="button" aria-label="View student profile">Profile</button>
+    <h1>XR7000 Teacher</h1>
+    <div class="header-actions">
+      <button id="clearChat" class="ghost-btn" type="button">Clear</button>
+      <button id="profileBtn" class="ghost-btn" type="button">Profile</button>
+    </div>
   </header>
+
+  <div class="model-bar">
+    <select id="modelSelect" aria-label="Choose on-device model"></select>
+    <button id="loadBtn" type="button">Load</button>
+  </div>
+  <div id="status" class="status">Starting…</div>
 
   <main id="log" class="log" aria-live="polite"></main>
 
   <form id="composer" class="composer">
-    <textarea id="input" rows="1" placeholder="Ask about a chord, describe a feel, request a practice task…" autocomplete="off"></textarea>
+    <textarea id="input" rows="1" placeholder="Describe a feel, name a chord, ask for a practice task…" autocomplete="off"></textarea>
     <button type="submit" id="sendBtn">Send</button>
   </form>
 </div>
 
 <dialog id="profileDialog">
   <h2>What it knows about you</h2>
-  <pre id="profileContent">Loading…</pre>
-  <button id="closeProfile" type="button">Close</button>
+  <p class="hint">Edit freely — this is the memory that shapes every answer.</p>
+  <textarea id="profileContent" rows="18" spellcheck="false"></textarea>
+  <div class="dialog-actions">
+    <button id="saveProfile" type="button">Save</button>
+    <button id="resetProfile" class="ghost-btn" type="button">Reset</button>
+    <button id="closeProfile" class="ghost-btn" type="button">Close</button>
+  </div>
 </dialog>
 
-<script src="app.js"></script>
+<script src="./music-theory.js"></script>
+<script src="./theory-context.js"></script>
+<script src="./local-memory.js"></script>
+<script type="module" src="./app.js"></script>
 </body>
 </html>
