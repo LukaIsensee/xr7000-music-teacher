@@ -8,22 +8,49 @@ A private, personalized AI music teacher for the Kawai XR7000, built in phases.
   descriptive/emotional language ("more sorrowful") into concrete music-theory suggestions, and
   remembers your skill level, taste, and personal vocabulary across sessions via a profile that
   updates itself in the background as you talk. PWA so it installs on your phone too.
-- **Step 2**: refine the interpretation/vocabulary layer and practice-task quality based on real
-  usage; expand the profile model.
+- **Step 2**: move the model on-device (WebLLM/WebGPU) so the app works on the phone without a
+  server, backed by the deterministic theory engine below. Refine the interpretation/vocabulary
+  layer and practice-task quality from real usage.
 - **Step 3**: microphone input — hear chords/notes as you play the XR7000 and give live feedback
   and analysis, answering questions about where to go next based on what it just heard.
 
 ## Architecture
 
-- `backend/` — FastAPI app. Talks to a local Ollama server over HTTP (`/api/chat`), so the LLM
-  itself runs on your DGX Spark, not in this app.
+The target is a model running **on the phone itself**, so the app works anywhere without depending
+on a server being powered on.
+
+That constrains the model to roughly 1–4B parameters, which is too small to reliably *derive* music
+theory — a small model will state wrong chord tones and wrong mode formulas fluently, which is the
+worst possible failure mode for a learner. So the design splits the job:
+
+- `frontend/music-theory.js` — **deterministic theory engine, no LLM involved.** Chord spelling,
+  scales/modes, diatonic harmony, roman-numeral analysis, and mood-to-device suggestions are all
+  computed exactly in code. Notes are spelled by letter-and-accidental (a 3rd is always two letter
+  names up), so C minor yields `Eb` not `D#`, and A harmonic minor ends on `G#` not `Ab`.
+- `frontend/music-theory.test.js` — 38 assertions covering the above. Run with
+  `node frontend/music-theory.test.js`. These matter: the engine's correctness is the entire reason
+  the small model is safe to teach with.
+- The language model's job is only to *converse* — explain the verified facts it is handed, in your
+  vocabulary, at your level. It is never asked to work out the theory itself.
 - `frontend/` — installable PWA chat UI (vanilla HTML/CSS/JS, no build step).
+- `backend/` — FastAPI app talking to Ollama. Now the **optional** path: useful for development and
+  for comparing answers against a large model on a DGX Spark, but not required for the on-device
+  target.
 - `data/` — `conversations.db` (SQLite message history) and `profile.json` (evolving profile:
   skill level, goals, taste notes, personal vocabulary mappings). Both are gitignored — this is
   *your* data, not something to commit.
 
-Python was chosen for the backend specifically because Step 3 (audio analysis) will need Python's
-audio/DSP ecosystem (librosa, aubio, crepe, etc.) — this avoids a rewrite later.
+### On fine-tuning
+
+Fine-tuning is planned, but it is worth being precise about what it does. It will **not** remove the
+need for a model to run somewhere, and it will **not** shrink a model to phone size — a fine-tuned
+70B is still 70B. Fine-tuning is also a poor mechanism for *remembering facts about you*: it needs
+many examples and would have to be re-run every time it learned something new. That job belongs to
+`profile.json`, which updates instantly and can be hand-corrected.
+
+Where fine-tuning genuinely helps is **style** — making the teacher sound the way you want, adopt
+your idiom, and land on the right level of detail unprompted. The conversation logs being saved now
+are exactly the training data that step will need.
 
 ## Setup
 
